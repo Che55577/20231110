@@ -1,41 +1,28 @@
 import random
 import xml.etree.ElementTree as ET
-
-def load_settings():
-    tree = ET.parse('settings.xml')
-    root = tree.getroot()
-    x1 = int(root.find('x1').text)
-    x2 = int(root.find('x2').text)
-    n = int(root.find('n').text)
-    return x1, x2, n
-
-def save_settings(x1, x2, n):
-    root = ET.Element("settings")
-    ET.SubElement(root, "x1").text = str(x1)
-    ET.SubElement(root, "x2").text = str(x2)
-    ET.SubElement(root, "n").text = str(n)
-    tree = ET.ElementTree(root)
-    tree.write('settings.xml')
-
-def guess_game():
-    x1, x2, n = load_settings()
-    target_number = random.randint(x1, x2)
-
-    print(f"猜測一個在 {x1} 到 {x2} 之間的數字。")
-
-    for i in range(n):
-        guess = int(input("請輸入你的猜測："))
-
-        if guess == target_number:
-            print(f"恭喜！你猜對了，目標數字是 {target_number}。")
-            break
-        elif guess < target_number:
-            print("太低了，再試一次。")
-        else:
-            print("太高了，再試一次。")
-
-    else:
-        print(f"抱歉，你已經猜了 {n} 次，遊戲結束。目標數字是 {target_number}。")
-
-if __name__ == "__main__":
-    guess_game()
+def load_config():
+tree = ET.parse(&#39;config.xml&#39;)
+root = tree.getroot()
+x1 = int(root.find(&#39;x1&#39;).text)
+x2 = int(root.find(&#39;x2&#39;).text)
+n = int(root.find(&#39;n&#39;).text)
+return x1, x2, n
+def generate_target_number(x1, x2):
+return random.randint(x1, x2)
+def main():
+x1, x2, n = load_config()
+target_number = generate_target_number(x1, x2)
+print(f&quot;猜猜看目標數字是在 {x1} 和 {x2} 之間。&quot;)
+for _ in range(n):
+guess = int(input(&quot;請輸入你的猜測: &quot;))
+if guess == target_number:
+print(&quot;恭喜你，猜對了！&quot;)
+break
+elif guess &lt; target_number:
+print(&quot;太低了，再試一次。&quot;)
+else:
+print(&quot;太高了，再試一次。&quot;)
+else:
+print(f&quot;抱歉，你已經猜了{n}次，仍未猜對。目標數字是 {target_number}。&quot;)
+if __name__ == &quot;__main__&quot;:
+main()
